@@ -31,7 +31,7 @@ namespace Game
             _networkManager.ModelChangedEvent += OnModelChanged;
 
             _bulletManager = new BulletManager(_config);
-            _buffManager = new BuffManager(_config);
+            _buffManager = new BuffManager(_config, _networkManager);
             _playersManager = new PlayersManager(_networkManager, _bulletManager, _buffManager, _networkEvents, _config, _gameplayView);
 
             _view.SetLoadingState(true);

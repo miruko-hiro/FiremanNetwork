@@ -9,15 +9,14 @@ namespace View.Components.Buffs
  
         [SerializeField] private float _speed = 10f;
         [SerializeField] private float _second = 5f;
-        
+
         public override float TimeOfAction => _speed;
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("collision");
-            if (other.collider.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
-                var player = other.collider.GetComponent<PlayerController>();
+                var player = other.GetComponent<PlayerController>();
                 OnTargetPickedUpBuffEvent?.Invoke(this, player);
                 player.ApplySpeedBuff(_speed, _second);
                 Destroy(gameObject);

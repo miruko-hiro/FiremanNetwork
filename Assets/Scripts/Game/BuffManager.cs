@@ -15,14 +15,17 @@ namespace Game
         
         private readonly GameConfig _config;
         private readonly string[] _pathsToBuffPrefabsMap;
+        private readonly NetworkManager _networkManager;
+        private bool _isRoomCreated;
         private IBuffTarget _target;
         private float _buffDuration;
 
-        public BuffManager(GameConfig config)
+        public BuffManager(GameConfig config, NetworkManager networkManager)
         {
             _config = config;
             _pathsToBuffPrefabsMap = new string[] {_config.SpeedBuffPrefab.Path};
-            CreateBuff();
+            _networkManager = networkManager;
+            networkManager.RoomJoinEvent += RoomJoin;
         }
         
         public void Tick(float deltaTime)
@@ -30,7 +33,7 @@ namespace Game
             if (_target == null)
             {
                 _tempCooldown -= deltaTime;
-                if(_tempCooldown <= 0f && _buffDuration <= 0f) CreateBuff();
+                if(_tempCooldown <= 0f && _buffDuration <= 0f && _isRoomCreated) CreateBuff();
             }
             else
             {
@@ -56,10 +59,21 @@ namespace Game
             OnTargetPickedUpBuffEvent?.Invoke(target);
         }
 
+        private void RoomJoin(bool isRoomCreated, string none)
+        {
+            _isRoomCreated = isRoomCreated;
+        }
+
         private void Remove(Buff buff)
         {
             buff.OnTargetPickedUpBuffEvent -= TargetPickedUpBuff;
             PhotonNetwork.Destroy(buff.gameObject);
         }
+
+        ~BuffManager()
+        {
+            _networkManager.RoomJoinEvent -= RoomJoin;
+        }
+        
     }
 }
