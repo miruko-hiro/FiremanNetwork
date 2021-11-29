@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using View.Components.Buffs;
 using View.Input;
 
 namespace View.Components
 {
-    public class PlayerController : MonoBehaviour, IBulletTarget
+    public class PlayerController : MonoBehaviour, IBulletTarget, IBuffTarget
     {
         public event Action<Vector3, Quaternion> ShootEvent;
 
@@ -82,6 +84,19 @@ namespace View.Components
         private void Shoot()
         {
             ShootEvent?.Invoke(BulletSpawnPoint.position, transform.rotation);
+        }
+
+        public void ApplySpeedBuff(float newSpeed, float second)
+        {
+            StartCoroutine(SpeedBuffCoroutine(newSpeed, second));
+        }
+
+        private IEnumerator SpeedBuffCoroutine(float newSpeed, float second)
+        {
+            var temp = Speed;
+            Speed = newSpeed;
+            yield return new WaitForSeconds(second);
+            Speed = temp;
         }
     }
 }

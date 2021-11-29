@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Configs
 {
@@ -10,10 +11,13 @@ namespace Game.Configs
         public float BulletLifeTime;
         public float PlayerHelth;
         public float FirePeriod;
+        public float СooldownBuffs;
+        public Vector3 BuffPosition;
         
         [Header("Prefabs")]
         public ResourceLink PlayerPrefab;
         public ResourceLink BulletPrefab;
+        public ResourceLink SpeedBuffPrefab;
 
         [Header("Player View")]
         public LayerMaskAsInt CurrentPlayerLayer;
@@ -24,6 +28,7 @@ namespace Game.Configs
 #if UNITY_EDITOR
             PlayerPrefab.OnValidate();
             BulletPrefab.OnValidate();
+            SpeedBuffPrefab.OnValidate();
 #endif
         }
     }

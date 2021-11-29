@@ -19,6 +19,7 @@ namespace Game
 
         private BulletManager _bulletManager;
         private PlayersManager _playersManager;
+        private BuffManager _buffManager;
 
         public void OnEnable()
         {
@@ -30,7 +31,8 @@ namespace Game
             _networkManager.ModelChangedEvent += OnModelChanged;
 
             _bulletManager = new BulletManager(_config);
-            _playersManager = new PlayersManager(_networkManager, _bulletManager, _networkEvents, _config, _gameplayView);
+            _buffManager = new BuffManager(_config);
+            _playersManager = new PlayersManager(_networkManager, _bulletManager, _buffManager, _networkEvents, _config, _gameplayView);
 
             _view.SetLoadingState(true);
             _view.SetSettingsState(false);
@@ -48,6 +50,7 @@ namespace Game
         {
             _bulletManager.Tick(Time.deltaTime);
             _playersManager.Tick(Time.deltaTime);
+            _buffManager.Tick(Time.deltaTime);
         }
 
         private void OnModelChanged()

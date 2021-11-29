@@ -4,6 +4,7 @@ using Game.Configs;
 using UnityEngine;
 using View;
 using View.Components;
+using View.Components.Buffs;
 using Random = UnityEngine.Random;
 
 namespace Game
@@ -12,6 +13,7 @@ namespace Game
     {
         private readonly NetworkManager _networkManager;
         private readonly BulletManager _bulletManager;
+        private readonly BuffManager _buffManager;
         private readonly NetworkEvents _networkEvents;
         private readonly GameConfig _config;
         private readonly GameplayView _gameplayView;
@@ -26,6 +28,7 @@ namespace Game
         public PlayersManager(
             NetworkManager networkManager, 
             BulletManager bulletManager,
+            BuffManager buffManager,
             NetworkEvents networkEvents, 
             GameConfig config, 
             GameplayView gameplayView)
@@ -35,12 +38,14 @@ namespace Game
             _config = config;
             _gameplayView = gameplayView;
             _bulletManager = bulletManager;
+            _buffManager = buffManager;
 
             _health = _config.PlayerHelth;
 
             _networkManager.ModelChangedEvent += OnModelChanged;
             _networkEvents.PlayerControllerCreatedEvent += AddPlayer;
             _bulletManager.OnTargetReachedEvent += OnTargetReached;
+            _buffManager.OnTargetPickedUpBuffEvent += TargetPickedUpBuff;
         }
 
         public void Release()
@@ -48,6 +53,7 @@ namespace Game
             _networkManager.ModelChangedEvent -= OnModelChanged;
             _networkEvents.PlayerControllerCreatedEvent -= AddPlayer;
             _bulletManager.OnTargetReachedEvent -= OnTargetReached;
+            _buffManager.OnTargetPickedUpBuffEvent -= TargetPickedUpBuff;
         }
         
         public void CreateLocalPlayer()
@@ -101,6 +107,14 @@ namespace Game
                 zombie.SetState(false);
             }
             else if (target is PlayerController player)
+            {
+                _networkManager.SetFireman(player.Id);
+            }
+        }
+
+        private void TargetPickedUpBuff(IBuffTarget target)
+        {
+            if (target is PlayerController player)
             {
                 _networkManager.SetFireman(player.Id);
             }
