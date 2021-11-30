@@ -2,6 +2,7 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 using View.Components;
+using View.Components.Buffs;
 
 namespace Game
 {
@@ -48,6 +49,17 @@ namespace Game
             var playerController = player.GetComponent<PlayerController>();
             
             return playerController;
+        }
+
+        public Buff CreateBuff(string prefabName, Vector3 position, Quaternion rotation)
+        {
+            var buff = PhotonNetwork.Instantiate(prefabName, position, rotation).GetComponent<Buff>();
+            return buff;
+        }
+
+        public void RemoveBuff(Buff buff)
+        {
+            PhotonNetwork.Destroy(buff.gameObject);
         }
         
         public void SetFireman(int id)

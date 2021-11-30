@@ -44,9 +44,9 @@ namespace Game
         
         private void CreateBuff()
         {
-            var buff = PhotonNetwork.Instantiate(_pathsToBuffPrefabsMap[Random.Range(0, _pathsToBuffPrefabsMap.Length)], 
+            var buff = _networkManager.CreateBuff(_pathsToBuffPrefabsMap[Random.Range(0, _pathsToBuffPrefabsMap.Length)], 
                 _config.BuffPosition, 
-                Quaternion.identity).GetComponent<Buff>();
+                Quaternion.identity);
             buff.OnTargetPickedUpBuffEvent += TargetPickedUpBuff;
             _buffDuration = buff.TimeOfAction;
             _tempCooldown = _config.СooldownBuffs;
@@ -68,7 +68,7 @@ namespace Game
         private void Remove(Buff buff)
         {
             buff.OnTargetPickedUpBuffEvent -= TargetPickedUpBuff;
-            PhotonNetwork.Destroy(buff.gameObject);
+            _networkManager.RemoveBuff(buff);
         }
 
         ~BuffManager()
