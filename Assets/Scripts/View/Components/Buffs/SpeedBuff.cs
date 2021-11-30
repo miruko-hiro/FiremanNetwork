@@ -17,9 +17,8 @@ namespace View.Components.Buffs
             if (other.CompareTag("Player"))
             {
                 var player = other.GetComponent<PlayerController>();
-                OnTargetPickedUpBuffEvent?.Invoke(this, player);
                 player.ApplySpeedBuff(_speed, _second);
-                Destroy(gameObject);
+                OnTargetPickedUpBuffEvent?.Invoke(this, player);
             }
         }
     }

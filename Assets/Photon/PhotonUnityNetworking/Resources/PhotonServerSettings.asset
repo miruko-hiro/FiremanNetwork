@@ -39,6 +39,8 @@ MonoBehaviour:
   - SetFiremanRpc
   - EndGameRpc
   - ChangeState
+  - CreateBuff
+  - RemoveBuff
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
