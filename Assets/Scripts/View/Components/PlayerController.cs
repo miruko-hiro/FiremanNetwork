@@ -87,15 +87,20 @@ namespace View.Components
             ShootEvent?.Invoke(BulletSpawnPoint.position, transform.rotation);
         }
 
+        [PunRPC]
         public void ChangeSpeedForCertainTime(float newSpeed, float second)
         {
-            Debug.Log("newSpeed" + newSpeed + " " + "second " + second);
             StartCoroutine(SpeedBuffCoroutine(newSpeed, second));
         }
 
         public void PickedUpFreezeBuff(float newSpeed, float second)
         {
             OnPickedUpFreezeBuffEvent?.Invoke(Id, newSpeed, second);
+        }
+
+        public void ChangeSpeedForCertainTimeRcp(float newSpeed, float time)
+        {
+            _photonView.RPC(nameof(ChangeSpeedForCertainTime), RpcTarget.All, newSpeed, time);
         }
 
         private IEnumerator SpeedBuffCoroutine(float newSpeed, float second)

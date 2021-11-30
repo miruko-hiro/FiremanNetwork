@@ -99,7 +99,7 @@ namespace Game
         {
             foreach (var player in _players) 
                 if(player.Id != id) 
-                    player.ChangeSpeedForCertainTime(speed, time);
+                    player.ChangeSpeedForCertainTimeRcp(speed, time);
         }
         
         private void OnTargetReached(IBulletTarget target)
