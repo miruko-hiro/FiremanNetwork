@@ -37,9 +37,8 @@ namespace Game
         
         private void CreateBuff()
         {
-            var buff = _networkManager.CreateObject<Buff>(_buffPrefabsMap[Random.Range(0, _buffPrefabsMap.Length)], 
-                _config.BuffPosition, 
-                Quaternion.identity);
+            var randomPrefab = _buffPrefabsMap[Random.Range(0, _buffPrefabsMap.Length)];
+            var buff = _networkManager.CreateObject<Buff>(randomPrefab, _config.BuffPosition, Quaternion.identity);
             buff.OnTargetPickedUpBuffEvent += TargetPickedUpBuff;
             _buffDuration = buff.TimeOfAction;
             _tempCooldown = _config.СooldownBuffs;

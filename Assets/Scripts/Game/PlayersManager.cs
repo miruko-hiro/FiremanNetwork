@@ -95,10 +95,10 @@ namespace Game
             _fireTimer = _config.FirePeriod;
         }
 
-        private void ApplyFreezeBuff(PlayerController pickingPlayer, float speed, float time)
+        private void ApplyFreezeBuff(int id, float speed, float time)
         {
             foreach (var player in _players) 
-                if(player.Id != pickingPlayer.Id) 
+                if(player.Id != id) 
                     player.ChangeSpeedForCertainTime(speed, time);
         }
         

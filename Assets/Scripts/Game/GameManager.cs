@@ -48,7 +48,7 @@ namespace Game
 
         private void Update()
         {
-            if (_networkManager.IsMaster) 
+            if (_networkManager.IsMaster)
                 _buffManager.Tick(Time.deltaTime);
             _bulletManager.Tick(Time.deltaTime);
             _playersManager.Tick(Time.deltaTime);

@@ -10,7 +10,7 @@ namespace View.Components
     public class PlayerController : MonoBehaviour, IBulletTarget, IBuffTarget
     {
         public event Action<Vector3, Quaternion> ShootEvent;
-        public event Action<PlayerController, float, float> OnPickedUpFreezeBuffEvent;
+        public event Action<int, float, float> OnPickedUpFreezeBuffEvent;
 
         [SerializeField] private PhotonView _photonView;
         
@@ -89,12 +89,13 @@ namespace View.Components
 
         public void ChangeSpeedForCertainTime(float newSpeed, float second)
         {
+            Debug.Log("newSpeed" + newSpeed + " " + "second " + second);
             StartCoroutine(SpeedBuffCoroutine(newSpeed, second));
         }
 
         public void PickedUpFreezeBuff(float newSpeed, float second)
         {
-            OnPickedUpFreezeBuffEvent?.Invoke(this, newSpeed, second);
+            OnPickedUpFreezeBuffEvent?.Invoke(Id, newSpeed, second);
         }
 
         private IEnumerator SpeedBuffCoroutine(float newSpeed, float second)
