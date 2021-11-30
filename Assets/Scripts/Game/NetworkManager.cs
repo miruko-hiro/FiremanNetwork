@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 using View.Components;
 using View.Components.Buffs;
+using Object = UnityEngine.Object;
 
 namespace Game
 {
@@ -51,15 +52,17 @@ namespace Game
             return playerController;
         }
 
-        public Buff CreateBuff(string prefabName, Vector3 position, Quaternion rotation)
+        [PunRPC]
+        public Buff CreateBuff(GameObject prefab, Vector3 position, Quaternion rotation)
         {
-            var buff = PhotonNetwork.Instantiate(prefabName, position, rotation).GetComponent<Buff>();
+            var buff = Instantiate(prefab, position, rotation).GetComponent<Buff>();
             return buff;
         }
 
+        [PunRPC]
         public void RemoveBuff(Buff buff)
         {
-            PhotonNetwork.Destroy(buff.gameObject);
+            Destroy(buff.gameObject);
         }
         
         public void SetFireman(int id)

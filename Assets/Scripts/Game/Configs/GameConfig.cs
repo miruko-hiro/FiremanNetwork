@@ -39,6 +39,7 @@ namespace Game.Configs
         [SerializeField] private GameObject _resource;
         [SerializeField] private string _resourcePath;
 
+        public GameObject Prefab => _resource;
         public string Path => _resourcePath;
 #if UNITY_EDITOR
         public void OnValidate()

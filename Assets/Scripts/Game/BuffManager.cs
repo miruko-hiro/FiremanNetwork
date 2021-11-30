@@ -1,6 +1,5 @@
 using System;
 using Game.Configs;
-using Photon.Pun;
 using UnityEngine;
 using View.Components.Buffs;
 using Random = UnityEngine.Random;
@@ -14,7 +13,7 @@ namespace Game
         private float _tempCooldown;
         
         private readonly GameConfig _config;
-        private readonly string[] _pathsToBuffPrefabsMap;
+        private readonly GameObject[] _buffPrefabsMap;
         private readonly NetworkManager _networkManager;
         private bool _isRoomCreated;
         private IBuffTarget _target;
@@ -23,7 +22,7 @@ namespace Game
         public BuffManager(GameConfig config, NetworkManager networkManager)
         {
             _config = config;
-            _pathsToBuffPrefabsMap = new string[] {_config.SpeedBuffPrefab.Path};
+            _buffPrefabsMap = new GameObject[] {_config.SpeedBuffPrefab.Prefab};
             _networkManager = networkManager;
             networkManager.RoomJoinEvent += RoomJoin;
         }
@@ -44,7 +43,7 @@ namespace Game
         
         private void CreateBuff()
         {
-            var buff = _networkManager.CreateBuff(_pathsToBuffPrefabsMap[Random.Range(0, _pathsToBuffPrefabsMap.Length)], 
+            var buff = _networkManager.CreateBuff(_buffPrefabsMap[Random.Range(0, _buffPrefabsMap.Length)], 
                 _config.BuffPosition, 
                 Quaternion.identity);
             buff.OnTargetPickedUpBuffEvent += TargetPickedUpBuff;
