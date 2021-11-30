@@ -53,16 +53,16 @@ namespace Game
         }
 
         [PunRPC]
-        public Buff CreateBuff(GameObject prefab, Vector3 position, Quaternion rotation)
+        public T CreateObject<T>(GameObject prefab, Vector3 position, Quaternion rotation) where T: Component
         {
-            var buff = Instantiate(prefab, position, rotation).GetComponent<Buff>();
-            return buff;
+            var component = Instantiate(prefab, position, rotation).GetComponent<T>();
+            return component;
         }
 
         [PunRPC]
-        public void RemoveBuff(Buff buff)
+        public void RemoveObject(GameObject gameObj)
         {
-            Destroy(buff.gameObject);
+            Destroy(gameObj);
         }
         
         public void SetFireman(int id)

@@ -4,7 +4,6 @@ using Game.Configs;
 using UnityEngine;
 using View;
 using View.Components;
-using View.Components.Buffs;
 using Random = UnityEngine.Random;
 
 namespace Game
@@ -58,6 +57,7 @@ namespace Game
             
             _playerController = _networkManager.CreatePlayer(_config.PlayerPrefab.Path, spawnPoint.position, spawnPoint.rotation);
             _playerController.ShootEvent += OnShoot;
+            _playerController.OnPickedUpFreezeBuffEvent += ApplyFreezeBuff;
             
             _gameplayView.SetLocalPlayer(_playerController);
             _gameplayView.AddPlayer(_playerController);
@@ -93,6 +93,13 @@ namespace Game
             
             _bulletManager.CreateBullet(point, rotation);
             _fireTimer = _config.FirePeriod;
+        }
+
+        private void ApplyFreezeBuff(PlayerController pickingPlayer, float speed, float time)
+        {
+            foreach (var player in _players) 
+                if(player != pickingPlayer) 
+                    player.ChangeSpeedForCertainTime(speed, time);
         }
         
         private void OnTargetReached(IBulletTarget target)

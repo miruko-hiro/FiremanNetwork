@@ -1,4 +1,3 @@
-using System;
 using Game.Configs;
 using UnityEngine;
 using View.Components.Buffs;
@@ -8,21 +7,18 @@ namespace Game
 {
     public class BuffManager
     {
-        public event Action<IBuffTarget> OnTargetPickedUpBuffEvent;
-
-        private float _tempCooldown;
-        
         private readonly GameConfig _config;
         private readonly GameObject[] _buffPrefabsMap;
         private readonly NetworkManager _networkManager;
         private bool _isRoomCreated;
         private IBuffTarget _target;
         private float _buffDuration;
+        private float _tempCooldown;
 
         public BuffManager(GameConfig config, NetworkManager networkManager)
         {
             _config = config;
-            _buffPrefabsMap = new GameObject[] {_config.SpeedBuffPrefab.Prefab};
+            _buffPrefabsMap = new GameObject[] {_config.SpeedBuffPrefab.Prefab, _config.FreezeBuffPrefab.Prefab};
             _networkManager = networkManager;
             networkManager.RoomJoinEvent += RoomJoin;
         }
@@ -43,7 +39,7 @@ namespace Game
         
         private void CreateBuff()
         {
-            var buff = _networkManager.CreateBuff(_buffPrefabsMap[Random.Range(0, _buffPrefabsMap.Length)], 
+            var buff = _networkManager.CreateObject<Buff>(_buffPrefabsMap[Random.Range(0, _buffPrefabsMap.Length)], 
                 _config.BuffPosition, 
                 Quaternion.identity);
             buff.OnTargetPickedUpBuffEvent += TargetPickedUpBuff;
@@ -56,7 +52,6 @@ namespace Game
         {
             _target = target;
             Remove(buff);
-            OnTargetPickedUpBuffEvent?.Invoke(target);
         }
 
         private void RoomJoin(bool isRoomCreated, string none)
@@ -67,7 +62,7 @@ namespace Game
         private void Remove(Buff buff)
         {
             buff.OnTargetPickedUpBuffEvent -= TargetPickedUpBuff;
-            _networkManager.RemoveBuff(buff);
+            _networkManager.RemoveObject(buff.gameObject);
         }
 
         ~BuffManager()

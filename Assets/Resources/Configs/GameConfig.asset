@@ -15,7 +15,7 @@ MonoBehaviour:
   BulletLifeTime: 1
   PlayerHelth: 30
   FirePeriod: 1.2
-  "\u0421ooldownBuffs": 10
+  "\u0421ooldownBuffs": 5
   BuffPosition: {x: -5, y: 1, z: 0}
   PlayerPrefab:
     _resource: {fileID: 1186256172198026, guid: 9f3385ee456da431cbd6ef7d9adb68f6,
@@ -29,6 +29,10 @@ MonoBehaviour:
     _resource: {fileID: 1889807864929300213, guid: c9138d717981da84d8d2bc9fc6a0331b,
       type: 3}
     _resourcePath: Prefabs/Speed Buff
+  FreezeBuffPrefab:
+    _resource: {fileID: 6578168395267249559, guid: 048d8b85174c14849b1763c20c261073,
+      type: 3}
+    _resourcePath: Prefabs/Freeze Buff
   CurrentPlayerLayer:
     _currentPlayerLayer:
       serializedVersion: 2

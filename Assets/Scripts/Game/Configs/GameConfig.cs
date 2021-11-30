@@ -18,6 +18,7 @@ namespace Game.Configs
         public ResourceLink PlayerPrefab;
         public ResourceLink BulletPrefab;
         public ResourceLink SpeedBuffPrefab;
+        public ResourceLink FreezeBuffPrefab;
 
         [Header("Player View")]
         public LayerMaskAsInt CurrentPlayerLayer;
@@ -29,6 +30,7 @@ namespace Game.Configs
             PlayerPrefab.OnValidate();
             BulletPrefab.OnValidate();
             SpeedBuffPrefab.OnValidate();
+            FreezeBuffPrefab.OnValidate();
 #endif
         }
     }
