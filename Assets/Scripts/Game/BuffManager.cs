@@ -8,9 +8,8 @@ namespace Game
     public class BuffManager
     {
         private readonly GameConfig _config;
-        private readonly GameObject[] _buffPrefabsMap;
+        private readonly string[] _buffPrefabsMap;
         private readonly NetworkManager _networkManager;
-        private bool _isRoomCreated;
         private IBuffTarget _target;
         private float _buffDuration;
         private float _tempCooldown;
@@ -18,9 +17,8 @@ namespace Game
         public BuffManager(GameConfig config, NetworkManager networkManager)
         {
             _config = config;
-            _buffPrefabsMap = new GameObject[] {_config.SpeedBuffPrefab.Prefab, _config.FreezeBuffPrefab.Prefab};
+            _buffPrefabsMap = new string[] {_config.SpeedBuffPrefab.Path, _config.FreezeBuffPrefab.Path};
             _networkManager = networkManager;
-            networkManager.RoomJoinEvent += RoomJoin;
         }
         
         public void Tick(float deltaTime)
@@ -28,7 +26,7 @@ namespace Game
             if (_target == null)
             {
                 _tempCooldown -= deltaTime;
-                if(_tempCooldown <= 0f && _buffDuration <= 0f && _isRoomCreated) CreateBuff();
+                if(_tempCooldown <= 0f && _buffDuration <= 0f) CreateBuff();
             }
             else
             {
@@ -54,20 +52,10 @@ namespace Game
             Remove(buff);
         }
 
-        private void RoomJoin(bool isRoomCreated, string none)
-        {
-            _isRoomCreated = isRoomCreated;
-        }
-
         private void Remove(Buff buff)
         {
             buff.OnTargetPickedUpBuffEvent -= TargetPickedUpBuff;
             _networkManager.RemoveObject(buff.gameObject);
-        }
-
-        ~BuffManager()
-        {
-            _networkManager.RoomJoinEvent -= RoomJoin;
         }
         
     }

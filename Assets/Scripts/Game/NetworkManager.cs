@@ -2,8 +2,6 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 using View.Components;
-using View.Components.Buffs;
-using Object = UnityEngine.Object;
 
 namespace Game
 {
@@ -52,17 +50,15 @@ namespace Game
             return playerController;
         }
 
-        [PunRPC]
-        public T CreateObject<T>(GameObject prefab, Vector3 position, Quaternion rotation) where T: Component
+        public T CreateObject<T>(string path, Vector3 position, Quaternion rotation) where T: Component
         {
-            var component = Instantiate(prefab, position, rotation).GetComponent<T>();
+            var component = PhotonNetwork.Instantiate(path, position, rotation).GetComponent<T>();
             return component;
         }
-
-        [PunRPC]
+        
         public void RemoveObject(GameObject gameObj)
         {
-            Destroy(gameObj);
+            PhotonNetwork.Destroy(gameObj);
         }
         
         public void SetFireman(int id)

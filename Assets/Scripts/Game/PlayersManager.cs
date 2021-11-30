@@ -97,7 +97,6 @@ namespace Game
 
         private void ApplyFreezeBuff(PlayerController pickingPlayer, float speed, float time)
         {
-            Debug.Log(_players.Count);
             foreach (var player in _players) 
                 if(player.Id != pickingPlayer.Id) 
                     player.ChangeSpeedForCertainTime(speed, time);
