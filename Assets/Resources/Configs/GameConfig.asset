@@ -16,7 +16,7 @@ MonoBehaviour:
   PlayerHelth: 30
   FirePeriod: 1.2
   "\u0421ooldownBuffs": 10
-  BuffPosition: {x: -5, y: 0, z: 0}
+  BuffPosition: {x: -5, y: 1, z: 0}
   PlayerPrefab:
     _resource: {fileID: 1186256172198026, guid: 9f3385ee456da431cbd6ef7d9adb68f6,
       type: 3}

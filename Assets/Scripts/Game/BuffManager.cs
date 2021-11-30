@@ -38,6 +38,7 @@ namespace Game
             else
             {
                 _buffDuration -= deltaTime;
+                if (_buffDuration <= 0f) _target = null;
             }
         }
         
